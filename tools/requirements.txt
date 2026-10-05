@@ -1,0 +1,3 @@
+fonttools
+brotli
+opencc-python-reimplemented

@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "Bǐshùn Workbook",
+  "short_name": "Bǐshùn",
+  "description": "Learn stroke order for traditional Chinese characters. Watch each stroke, write it, and quiz yourself.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#E7EEE9",
+  "theme_color": "#E7EEE9",
+  "categories": ["education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Write", "short_name": "Write", "url": "./#write", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Quiz", "short_name": "Quiz", "url": "./#quiz", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}

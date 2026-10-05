@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bǐshùn Workbook</title>
+<meta name="description" content="Learn stroke order for traditional Chinese characters. Watch each stroke, write it, and quiz yourself.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E7EEE9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1414" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bǐshùn">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<link rel="preload" href="fonts/noto-serif-tc-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="cells" aria-hidden="true"><span class="cell" lang="zh-Hant">筆</span><span class="cell" lang="zh-Hant">順</span></div>
+    <div class="tt">
+      <h1>Bǐshùn Workbook</h1>
+      <p><span class="long">Stroke order for traditional Chinese characters</span><span class="short">Traditional characters</span> <span lang="zh-Hant">(繁體)</span></p>
+    </div>
+    <button class="btn instbtn" id="install-go" type="button" hidden>Install</button>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="tab-watch" aria-controls="panel-watch" aria-selected="true">Watch <span class="zh" lang="zh-Hant">看</span></button>
+    <button class="tab" role="tab" id="tab-write" aria-controls="panel-write" aria-selected="false" tabindex="-1">Write <span class="zh" lang="zh-Hant">寫</span></button>
+    <button class="tab" role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false" tabindex="-1">Quiz <span class="zh" lang="zh-Hant">考</span></button>
+    <button class="tab" role="tab" id="tab-strokes" aria-controls="panel-strokes" aria-selected="false" tabindex="-1">Strokes <span class="zh" lang="zh-Hant">筆畫</span></button>
+    <button class="tab" role="tab" id="tab-rules" aria-controls="panel-rules" aria-selected="false" tabindex="-1">Rules <span class="zh" lang="zh-Hant">規則</span></button>
+  </nav>
+
+  <main id="main">
+  <!-- WATCH -->
+  <section class="panel" id="panel-watch" role="tabpanel" aria-labelledby="tab-watch">
+    <div class="split">
+      <div class="col">
+        <div class="stage-card o2"><svg class="stage" id="w-stage" viewBox="0 0 1024 1024" data-grid="mi" role="img" aria-label="Character"></svg></div>
+        <div class="opts o7">
+          <label class="tog"><input type="checkbox" id="w-nums"> Stroke numbers</label>
+          <label class="tog"><input type="checkbox" id="w-build"> Build up</label>
+          <span class="seg" role="group" aria-label="Grid style">
+            <button type="button" data-grid="mi" aria-pressed="true"><span lang="zh-Hant">米</span> grid</button><button type="button" data-grid="tian" aria-pressed="false"><span lang="zh-Hant">田</span> grid</button>
+          </span>
+        </div>
+      </div>
+      <div class="col">
+        <div class="head o1" id="w-head"></div>
+        <div class="readout o4" id="w-readout" aria-live="polite"></div>
+        <div class="ctl o3">
+          <button class="btn" id="w-back" type="button"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 6 10l6 6"/></svg>Back</button>
+          <button class="btn primary" id="w-next" type="button">Next Stroke<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 4 6 6-6 6"/></svg></button>
+          <button class="btn" id="w-play" type="button" aria-pressed="false">Play</button>
+        </div>
+        <ol class="seq o5" id="w-seq" aria-label="Strokes in order"></ol>
+        <p class="seq-note o6">Tap a stroke to jump to it.<span class="kbd"> Arrow keys also step through.</span></p>
+      </div>
+    </div>
+    <section class="shelf" aria-label="Choose a character"><div id="shelf-watch"></div></section>
+    <details class="film" id="w-film"><summary>Full stroke-order diagram</summary><div class="strip" id="w-film-body"></div></details>
+  </section>
+
+  <!-- WRITE -->
+  <section class="panel" id="panel-write" role="tabpanel" aria-labelledby="tab-write" hidden>
+    <div class="split">
+      <div class="col">
+        <div class="stage-card o3" id="p-card"><svg class="stage draw" id="p-stage" viewBox="0 0 1024 1024" data-grid="mi" role="img" aria-label="Writing area"></svg></div>
+        <div class="opts o8">
+          <label class="tog"><input type="checkbox" id="p-guide" checked> Show guide</label>
+          <span class="seg" role="group" aria-label="Grid style">
+            <button type="button" data-grid="mi" aria-pressed="true"><span lang="zh-Hant">米</span> grid</button><button type="button" data-grid="tian" aria-pressed="false"><span lang="zh-Hant">田</span> grid</button>
+          </span>
+        </div>
+      </div>
+      <div class="col">
+        <div class="head o1" id="p-head"></div>
+        <p class="prompt o2" id="p-prompt" aria-live="polite"></p>
+        <p class="msg o4" id="p-msg" aria-live="polite"></p>
+        <div class="dots o6" id="p-dots" aria-hidden="true"></div>
+        <div class="ctl o5">
+          <button class="btn" id="p-hint" type="button">Hint</button>
+          <button class="btn" id="p-reset" type="button">Start over</button>
+          <button class="btn" id="p-next" type="button">Next<span class="lg">&nbsp;character</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 4 6 6-6 6"/></svg></button>
+        </div>
+        <p class="cap o7">Draw each stroke with a mouse, finger or stylus, in the right direction. Strokes that match are kept.</p>
+      </div>
+    </div>
+    <section class="shelf" aria-label="Choose a character"><div id="shelf-write"></div></section>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+    <details class="qset" id="q-set" open>
+      <summary id="q-set-sum">Quiz settings</summary>
+      <div class="qbar">
+        <div class="grp"><label id="q-mode-l">Question</label>
+          <span class="seg" role="group" aria-labelledby="q-mode-l">
+            <button type="button" data-mode="next" aria-pressed="true">Next stroke</button><button type="button" data-mode="name" aria-pressed="false">Name the stroke</button>
+          </span></div>
+        <div class="grp"><label id="q-pool-l">Characters</label>
+          <span class="seg" role="group" aria-labelledby="q-pool-l">
+            <button type="button" data-pool="0" aria-pressed="true">All</button><button type="button" data-pool="1" aria-pressed="false">Starter</button><button type="button" data-pool="2" aria-pressed="false">Everyday</button><button type="button" data-pool="3" aria-pressed="false">Challenge</button>
+          </span></div>
+      </div>
+    </details>
+    <div class="split" id="q-main">
+      <div class="col">
+        <div class="stage-card o4 qstage"><div id="q-stage"></div></div>
+        <div class="legend o5" id="q-legend"></div>
+      </div>
+      <div class="col">
+        <div class="qstat o1" id="q-stat"></div>
+        <h2 class="qprompt o2" id="q-prompt"></h2>
+        <p class="qsub o3" id="q-sub"></p>
+        <div class="optgrid o6" id="q-options"></div>
+        <div class="fb o7" id="q-fb" aria-live="polite"></div>
+      </div>
+    </div>
+    <div id="q-result" hidden></div>
+  </section>
+
+  <!-- STROKES -->
+  <section class="panel" id="panel-strokes" role="tabpanel" aria-labelledby="tab-strokes" hidden>
+    <h2 class="sec-h">Stroke types <span lang="zh-Hant">筆畫</span></h2>
+    <p class="sec-intro">Every character is built from a small set of strokes. Each card shows a real stroke taken from the characters in this workbook. The red dot marks where the stroke starts. Tap a character to watch the stroke in context.</p>
+    <div id="s-body"></div>
+    <div class="aside">
+      <h3>Why <span lang="zh-Hant">永</span>?</h3>
+      <p><span lang="zh-Hant">永</span> (yǒng, forever) is the traditional practice character for brush writing. Its five strokes are a dot, a horizontal with a turn and hook, a horizontal that turns into a left-falling sweep, a short left-falling stroke and a right-falling stroke. Together they introduce several shapes you will meet in other characters.</p>
+      <p style="margin-top:10px"><button class="btn" type="button" id="s-yong" style="min-height:40px;font-size:14px">Watch <span lang="zh-Hant">永</span></button></p>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section class="panel" id="panel-rules" role="tabpanel" aria-labelledby="tab-rules" hidden>
+    <h2 class="sec-h">Stroke order rules <span lang="zh-Hant">筆順規則</span></h2>
+    <p class="sec-intro">Most characters follow a handful of habits. They are guidelines with exceptions, so when a character looks odd, check it in the Watch tab. Each example below is drawn step by step, with the newest stroke in red.</p>
+    <div class="rgrid" id="r-body"></div>
+
+    <footer class="foot">
+      <h2>About this app</h2>
+      <p>Stroke outlines and stroke order come from the Make Me a Hanzi project, as packaged in the Hanzi Writer character data. They derive from fonts by Arphic Technology and are used here under the Arphic Public License, whose full text is below. The outlines were converted from that data into this app's format on 4 October 2026.</p>
+      <p>Stroke names and order follow common practice. Taiwan, Hong Kong and mainland China differ on a few characters, so if your teacher or textbook uses another standard, follow that one.</p>
+      <p>Text is set in Noto Serif CJK TC (SIL Open Font License 1.1, Adobe) and Schibsted Grotesk (SIL Open Font License 1.1). The page works offline once it has loaded one time, and your progress stays on this device.</p>
+      <details><summary>Arphic Public License</summary><pre id="license-text">Loading…</pre></details>
+      <p class="ver">Version <span id="app-version">dev</span></p>
+    </footer>
+  </section>
+  </main>
+</div>
+
+<!-- bottom sheet: character picker (phones) -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-back" data-close="1"></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title" tabindex="-1">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div class="sheet-head"><h2 id="sheet-title">Choose a character</h2><button class="btn" id="sheet-close" type="button">Done</button></div>
+    <div class="sheet-body shelf" id="shelf-sheet"></div>
+  </div>
+</div>
+
+<!-- install steps for iPhone and iPad, which have no install prompt -->
+<div class="sheet" id="sheet-install" hidden>
+  <div class="sheet-back" data-close="1"></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="install-title" tabindex="-1">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div class="sheet-head"><h2 id="install-title">Add to Home Screen</h2><button class="btn" data-close="1" type="button">Done</button></div>
+    <div class="sheet-body">
+      <ol class="steps">
+        <li>Tap the <b>Share</b> button in Safari's toolbar (the square with an arrow pointing up).</li>
+        <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
+        <li>Tap <b>Add</b>. Bǐshùn then opens full screen from your home screen and works offline.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden><span id="toast-text"></span><button class="btn" id="toast-go" type="button">Reload</button><button class="btn x" id="toast-no" type="button" aria-label="Later"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

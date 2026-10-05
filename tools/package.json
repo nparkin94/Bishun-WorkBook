@@ -1,0 +1,20 @@
+{
+  "name": "bishun-tools",
+  "private": true,
+  "description": "Build-time helpers for the Bǐshùn Workbook (not shipped to the browser)",
+  "dependencies": {
+    "hanzi-writer-data": "2.0.1"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "jsdom": "^24.1.3",
+    "puppeteer-core": "^24.43.1"
+  },
+  "scripts": {
+    "test": "node test_logic.js && python3 check_static.py",
+    "test:browser": "node test_browser.js",
+    "data": "python3 build_data.py",
+    "icons": "node make_icons.js",
+    "fonts": "python3 subset_fonts.py"
+  }
+}
